@@ -30,6 +30,7 @@ max-width:1200px;
 margin:auto;
 display:flex;
 gap:8px;
+flex-wrap:wrap;
 }
 
 nav a{
@@ -150,6 +151,12 @@ font-weight:bold;
 margin-bottom:15px;
 }
 
+.user-info{
+color:#888;
+font-size:13px;
+margin-top:8px;
+}
+
 .grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
@@ -199,10 +206,16 @@ border-radius:8px;
 font-size:12px;
 }
 
-.user-info{
-color:#888;
+.error-box{
+background:#2a1111;
+border:1px solid #6d2929;
+color:#ffaaaa;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
 font-size:13px;
-margin-top:8px;
+line-height:1.6;
+display:none;
 }
 
 @media(max-width:800px){
@@ -227,7 +240,6 @@ font-size:30px;
 
 </style>
 </head>
-
 
 <body>
 
@@ -269,9 +281,13 @@ font-size:30px;
 <main class="container">
 
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
-<div id="loginBox" class="auth-box">
+<div
+id="loginBox"
+class="auth-box">
 
 <div class="status-icon">
 🔐
@@ -282,7 +298,7 @@ font-size:30px;
 </h2>
 
 <p>
-กรุณาเข้าสู่ระบบด้วย Google
+เข้าสู่ระบบด้วย Google
 เพื่อเข้าใช้งานสื่อการสอน
 </p>
 
@@ -294,10 +310,17 @@ class="google-btn">
 
 </button>
 
+<div
+id="loginError"
+class="error-box">
+</div>
+
 </div>
 
 
-<!-- CHECKING -->
+<!-- =========================
+     CHECKING
+========================= -->
 
 <div
 id="checkingBox"
@@ -319,7 +342,9 @@ style="display:none;">
 </div>
 
 
-<!-- PENDING -->
+<!-- =========================
+     PENDING
+========================= -->
 
 <div
 id="pendingBox"
@@ -335,7 +360,8 @@ style="display:none;">
 </h2>
 
 <p>
-ส่งคำขอเข้าใช้งานเรียบร้อยแล้ว<br>
+ส่งคำขอเข้าใช้งานเรียบร้อยแล้ว
+<br>
 กรุณารอแอดมินอนุมัติ
 </p>
 
@@ -350,7 +376,9 @@ class="logout">
 </div>
 
 
-<!-- DENIED -->
+<!-- =========================
+     DENIED
+========================= -->
 
 <div
 id="deniedBox"
@@ -381,9 +409,12 @@ class="logout">
 </div>
 
 
-<!-- TEACHING -->
+<!-- =========================
+     TEACHING
+========================= -->
 
-<section id="teachingContent">
+<section
+id="teachingContent">
 
 <div style="margin-bottom:25px;">
 
@@ -414,7 +445,8 @@ id="userInfo"
 class="user-info">
 </p>
 
-<div id="adminArea"
+<div
+id="adminArea"
 style="display:none;">
 
 <a
@@ -450,7 +482,7 @@ class="grid">
 
 
 /* ==================================================
-   FIREBASE
+   FIREBASE APP
 ================================================== */
 
 import {
@@ -460,16 +492,24 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 
+/* ==================================================
+   FIREBASE AUTH
+================================================== */
+
 import {
 getAuth,
 GoogleAuthProvider,
-signInWithRedirect,
+signInWithPopup,
 onAuthStateChanged,
 signOut
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+
+/* ==================================================
+   FIRESTORE
+================================================== */
 
 import {
 getFirestore,
@@ -478,11 +518,16 @@ getDoc,
 setDoc,
 collection,
 getDocs,
+onSnapshot,
 serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+
+/* ==================================================
+   CONFIG
+================================================== */
 
 import {
 firebaseConfig
@@ -492,7 +537,7 @@ from
 
 
 /* ==================================================
-   FIREBASE INITIALIZE
+   FIREBASE
 ================================================== */
 
 const app =
@@ -514,7 +559,7 @@ prompt:"select_account"
 
 
 /* ==================================================
-   ADMIN EMAIL
+   ADMIN
 ================================================== */
 
 const ADMIN_EMAIL =
@@ -526,40 +571,69 @@ const ADMIN_EMAIL =
 ================================================== */
 
 const loginBox =
-document.getElementById("loginBox");
+document.getElementById(
+"loginBox"
+);
 
 const checkingBox =
-document.getElementById("checkingBox");
+document.getElementById(
+"checkingBox"
+);
 
 const pendingBox =
-document.getElementById("pendingBox");
+document.getElementById(
+"pendingBox"
+);
 
 const deniedBox =
-document.getElementById("deniedBox");
+document.getElementById(
+"deniedBox"
+);
 
 const teachingContent =
-document.getElementById("teachingContent");
+document.getElementById(
+"teachingContent"
+);
 
 const googleLogin =
-document.getElementById("googleLogin");
+document.getElementById(
+"googleLogin"
+);
+
+const loginError =
+document.getElementById(
+"loginError"
+);
 
 const checkingTitle =
-document.getElementById("checkingTitle");
+document.getElementById(
+"checkingTitle"
+);
 
 const checkingText =
-document.getElementById("checkingText");
+document.getElementById(
+"checkingText"
+);
 
 const videosBox =
-document.getElementById("videos");
+document.getElementById(
+"videos"
+);
 
 const adminBadge =
-document.getElementById("adminBadge");
+document.getElementById(
+"adminBadge"
+);
 
 const adminArea =
-document.getElementById("adminArea");
+document.getElementById(
+"adminArea"
+);
 
 const userInfo =
-document.getElementById("userInfo");
+document.getElementById(
+"userInfo"
+);
 
 
 /* ==================================================
@@ -593,10 +667,33 @@ adminArea.style.display =
 
 
 /* ==================================================
+   SHOW LOGIN
+================================================== */
+
+function showLogin(){
+
+hideAll();
+
+loginBox.style.display =
+"block";
+
+googleLogin.disabled =
+false;
+
+googleLogin.textContent =
+"🔐 เข้าสู่ระบบด้วย Google";
+
+}
+
+
+/* ==================================================
    SHOW TEACHING
 ================================================== */
 
-function showTeaching(user,isAdmin){
+function showTeaching(
+user,
+isAdmin
+){
 
 hideAll();
 
@@ -624,12 +721,15 @@ loadVideos();
 
 
 /* ==================================================
-   GOOGLE LOGIN
+   GOOGLE POPUP LOGIN
 ================================================== */
 
 googleLogin.addEventListener(
 "click",
 async()=>{
+
+loginError.style.display =
+"none";
 
 try{
 
@@ -637,17 +737,37 @@ googleLogin.disabled =
 true;
 
 googleLogin.textContent =
-"กำลังเปิด Google...";
+"กำลังเข้าสู่ระบบ...";
 
-await signInWithRedirect(
+
+const result =
+await signInWithPopup(
 auth,
 provider
 );
 
+
+if(
+result &&
+result.user
+){
+
+console.log(
+"LOGIN SUCCESS:",
+result.user.email
+);
+
+/*
+onAuthStateChanged()
+จะทำงานต่อเอง
+*/
+
+}
+
 }catch(error){
 
 console.error(
-"LOGIN ERROR:",
+"GOOGLE LOGIN ERROR:",
 error
 );
 
@@ -657,12 +777,17 @@ false;
 googleLogin.textContent =
 "🔐 เข้าสู่ระบบด้วย Google";
 
-alert(
-"เข้าสู่ระบบไม่สำเร็จ\n\n"+
-error.code+
-"\n"+
-error.message
-);
+
+loginError.style.display =
+"block";
+
+loginError.innerHTML =
+"เข้าสู่ระบบไม่สำเร็จ<br><br>"+
+"<b>"+
+esc(error.code || "")
++
+"</b><br>"+
+esc(error.message || "");
 
 }
 
@@ -683,34 +808,28 @@ user
 );
 
 
-/* --------------------------------------------------
-   ยังไม่ได้ Login
--------------------------------------------------- */
+/* ==================================================
+   NO LOGIN
+================================================== */
 
 if(!user){
 
-hideAll();
-
-loginBox.style.display =
-"block";
-
-googleLogin.disabled =
-false;
-
-googleLogin.textContent =
-"🔐 เข้าสู่ระบบด้วย Google";
+showLogin();
 
 return;
 
 }
 
 
-/* --------------------------------------------------
-   Login สำเร็จ
--------------------------------------------------- */
+/* ==================================================
+   GET EMAIL
+================================================== */
 
 const email =
-(user.email || "").toLowerCase();
+(
+user.email || ""
+)
+.toLowerCase();
 
 
 console.log(
@@ -720,8 +839,7 @@ email
 
 
 /* ==================================================
-   ⭐ ADMIN BYPASS
-   สำคัญมาก
+   ⭐ ADMIN
 ================================================== */
 
 if(
@@ -730,7 +848,7 @@ ADMIN_EMAIL.toLowerCase()
 ){
 
 console.log(
-"ADMIN DETECTED"
+"ADMIN LOGIN"
 );
 
 showTeaching(
@@ -744,7 +862,7 @@ return;
 
 
 /* ==================================================
-   USER ปกติ
+   NORMAL USER
 ================================================== */
 
 hideAll();
@@ -763,6 +881,7 @@ checkingText.textContent =
 
 try{
 
+
 const requestRef =
 doc(
 db,
@@ -772,18 +891,23 @@ user.uid
 
 
 const requestSnap =
-await getDoc(requestRef);
+await getDoc(
+requestRef
+);
 
 
 /* ==================================================
-   ยังไม่มีคำขอ
+   NO REQUEST
 ================================================== */
 
-if(!requestSnap.exists()){
+if(
+!requestSnap.exists()
+){
 
 console.log(
-"สร้างคำขอใหม่"
+"สร้างคำขออนุมัติ"
 );
+
 
 await setDoc(
 requestRef,
@@ -810,8 +934,14 @@ serverTimestamp()
 }
 );
 
+
 pendingBox.style.display =
 "block";
+
+
+watchAccessStatus(
+user.uid
+);
 
 return;
 
@@ -819,7 +949,7 @@ return;
 
 
 /* ==================================================
-   มีคำขอแล้ว
+   EXISTING REQUEST
 ================================================== */
 
 const data =
@@ -827,7 +957,7 @@ requestSnap.data();
 
 
 console.log(
-"ACCESS STATUS:",
+"STATUS:",
 data.status
 );
 
@@ -842,6 +972,10 @@ data.status ===
 showTeaching(
 user,
 false
+);
+
+watchAccessStatus(
+user.uid
 );
 
 return;
@@ -869,6 +1003,10 @@ return;
 pendingBox.style.display =
 "block";
 
+watchAccessStatus(
+user.uid
+);
+
 }
 catch(error){
 
@@ -881,12 +1019,165 @@ checkingTitle.textContent =
 "เกิดข้อผิดพลาด";
 
 checkingText.innerHTML =
-"ไม่สามารถตรวจสอบสิทธิ์ได้<br><br>"+
+"ไม่สามารถตรวจสอบคำขอได้<br><br>"+
 "<small>"+
 esc(error.code || "")+
 "<br>"+
 esc(error.message || "")+
 "</small>";
+
+}
+
+});
+
+
+/* ==================================================
+   REALTIME APPROVAL
+================================================== */
+
+const listeners = {};
+
+
+function watchAccessStatus(uid){
+
+if(
+listeners[uid]
+){
+
+return;
+
+}
+
+const requestRef =
+doc(
+db,
+"accessRequests",
+uid
+);
+
+
+listeners[uid] =
+onSnapshot(
+requestRef,
+
+snapshot=>{
+
+if(
+!snapshot.exists()
+){
+
+return;
+
+}
+
+
+const data =
+snapshot.data();
+
+
+console.log(
+"REALTIME STATUS:",
+data.status
+);
+
+
+/* ==================================================
+   APPROVED
+================================================== */
+
+if(
+data.status ===
+"approved"
+){
+
+showTeaching(
+auth.currentUser,
+false
+);
+
+return;
+
+}
+
+
+/* ==================================================
+   DENIED
+================================================== */
+
+if(
+data.status ===
+"denied"
+){
+
+hideAll();
+
+deniedBox.style.display =
+"block";
+
+}
+
+},
+
+error=>{
+
+console.error(
+"REALTIME ERROR:",
+error
+);
+
+});
+
+}
+
+
+/* ==================================================
+   LOGOUT PENDING
+================================================== */
+
+document
+.getElementById(
+"logoutPending"
+)
+.addEventListener(
+"click",
+async()=>{
+
+try{
+
+await signOut(auth);
+
+location.reload();
+
+}catch(error){
+
+console.error(error);
+
+}
+
+});
+
+
+/* ==================================================
+   LOGOUT DENIED
+================================================== */
+
+document
+.getElementById(
+"logoutDenied"
+)
+.addEventListener(
+"click",
+async()=>{
+
+try{
+
+await signOut(auth);
+
+location.reload();
+
+}catch(error){
+
+console.error(error);
 
 }
 
@@ -903,18 +1194,25 @@ false;
 
 async function loadVideos(){
 
-if(videosLoaded){
+if(
+videosLoaded
+){
+
 return;
+
 }
 
 videosLoaded =
 true;
+
 
 videosBox.innerHTML = `
 
 <p style="
 color:#aaa;
 grid-column:1/-1;
+text-align:center;
+padding:40px;
 ">
 
 กำลังโหลดวิดีโอ...
@@ -926,12 +1224,6 @@ grid-column:1/-1;
 
 try{
 
-
-/*
-   ไม่ใช้ orderBy แล้ว
-   เพื่อป้องกัน Error กรณีข้อมูลเก่า
-   ไม่มี createdAt
-*/
 
 const snapshot =
 await getDocs(
@@ -969,11 +1261,12 @@ const text =
 title+
 " "+
 category
-).toLowerCase();
+)
+.toLowerCase();
 
 
 /*
-   แสดงวิดีโอที่เป็นสื่อการสอน
+   รองรับชื่อหมวดหมู่หลายแบบ
 */
 
 if(
@@ -1002,7 +1295,7 @@ id:videoDoc.id,
 
 
 /* ==================================================
-   เรียงใหม่จาก createdAt
+   SORT
 ================================================== */
 
 items.sort(
@@ -1021,10 +1314,12 @@ return bTime-aTime;
 
 
 /* ==================================================
-   ไม่มีวิดีโอ
+   EMPTY
 ================================================== */
 
-if(!items.length){
+if(
+!items.length
+){
 
 videosBox.innerHTML = `
 
@@ -1047,7 +1342,7 @@ return;
 
 
 /* ==================================================
-   แสดงวิดีโอ
+   DISPLAY
 ================================================== */
 
 videosBox.innerHTML =
@@ -1100,14 +1395,14 @@ video.category ||
 </article>
 
 `
-).join("");
+)
+.join("");
 
 
-}
-catch(error){
+}catch(error){
 
 console.error(
-"LOAD VIDEO ERROR:",
+"VIDEO ERROR:",
 error
 );
 
@@ -1144,53 +1439,7 @@ ${esc(error.message || "")}
 
 
 /* ==================================================
-   LOGOUT
-================================================== */
-
-document
-.getElementById("logoutPending")
-.addEventListener(
-"click",
-async()=>{
-
-try{
-
-await signOut(auth);
-
-location.reload();
-
-}catch(error){
-
-console.error(error);
-
-}
-
-});
-
-
-document
-.getElementById("logoutDenied")
-.addEventListener(
-"click",
-async()=>{
-
-try{
-
-await signOut(auth);
-
-location.reload();
-
-}catch(error){
-
-console.error(error);
-
-}
-
-});
-
-
-/* ==================================================
-   ESCAPE HTML
+   ESCAPE
 ================================================== */
 
 function esc(value){
@@ -1216,4 +1465,4 @@ char=>({
 </script>
 
 </body>
-  </html>
+   </html>
