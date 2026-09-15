@@ -1,2228 +1,1230 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Admin | ROBLOX DEV</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>ROBLOX DEV — ADMIN</title>
 
 <style>
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-  font-family:Arial,sans-serif;
-  background:#070a11;
-  color:white;
-  padding:20px;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
+    font-family:Arial,sans-serif;
+    background:#070a11;
+    color:white;
+    min-height:100vh;
 }
 
 header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.card{
-  background:#0d1320;
-  border:1px solid #202a3a;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
+    padding:22px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
 }
 
 h1{
-  font-size:25px;
+    font-size:34px;
 }
 
-h2{
-  margin-bottom:15px;
+.subtitle{
+    color:#8e98aa;
+    margin-top:8px;
+    font-size:17px;
+}
+
+.container{
+    max-width:1150px;
+    margin:auto;
+    padding:10px 18px 60px;
+}
+
+button{
+    border:none;
+    border-radius:14px;
+    padding:13px 18px;
+    background:#2563eb;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
+}
+
+.btn-gray{
+    background:#374151;
+}
+
+.btn-green{
+    background:#16a34a;
+}
+
+.btn-red{
+    background:#dc2626;
+}
+
+.login-box{
+    max-width:500px;
+    margin:70px auto;
+    background:#0d1422;
+    border:1px solid #263249;
+    border-radius:24px;
+    padding:30px;
+    text-align:center;
+}
+
+.login-box h2{
+    font-size:30px;
+    margin-bottom:12px;
+}
+
+.login-box p{
+    color:#8e98aa;
+    margin-bottom:25px;
+}
+
+.status{
+    background:#111827;
+    border:1px solid #27344b;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:25px;
+    font-size:17px;
+}
+
+.status.ok{
+    border-color:#166534;
+}
+
+.status.error{
+    border-color:#991b1b;
+    color:#fecaca;
 }
 
 .tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
 }
 
 .tab{
-  border:1px solid #29364c;
-  background:#141c2b;
-  color:white;
-  padding:11px 16px;
-  border-radius:10px;
-  cursor:pointer;
+    background:#111827;
+    border:1px solid #29364d;
 }
 
 .tab.active{
-  background:#2563eb;
+    background:#2563eb;
 }
 
-.section{
-  display:none;
+.panel{
+    display:none;
+    background:#0d1422;
+    border:1px solid #202b40;
+    border-radius:24px;
+    padding:25px;
 }
 
-.section.active{
-  display:block;
+.panel.active{
+    display:block;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
+h2{
+    font-size:30px;
+    margin-bottom:20px;
 }
 
-.full{
-  grid-column:1/-1;
+h3{
+    font-size:22px;
+    margin-top:35px;
+    margin-bottom:15px;
 }
 
 label{
-  display:block;
-  color:#aab4c5;
-  font-size:13px;
-  margin-bottom:7px;
+    display:block;
+    color:#aeb7c8;
+    margin-top:17px;
+    margin-bottom:8px;
+    font-size:16px;
 }
 
 input,
 textarea,
 select{
-  width:100%;
-  background:#080d17;
-  border:1px solid #2a3548;
-  color:white;
-  border-radius:10px;
-  padding:12px;
-  outline:none;
+    width:100%;
+    background:#080d16;
+    color:white;
+    border:1px solid #29364d;
+    border-radius:14px;
+    padding:15px;
+    font-size:16px;
+    outline:none;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:#3b82f6;
 }
 
 textarea{
-  min-height:100px;
-  resize:vertical;
+    min-height:110px;
+    resize:vertical;
 }
 
-button{
-  cursor:pointer;
+input[type="file"]{
+    padding:12px;
 }
 
-.btn{
-  border:0;
-  border-radius:10px;
-  padding:11px 16px;
-  color:white;
-}
-
-.primary{
-  background:#2563eb;
-}
-
-.success{
-  background:#16a34a;
-}
-
-.danger{
-  background:#dc2626;
-}
-
-.gray{
-  background:#374151;
-}
-
-.preview{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:15px;
-}
-
-.preview img,
-.preview video{
-  width:220px;
-  max-height:160px;
-  object-fit:contain;
-  background:#000;
-  border-radius:10px;
-}
-
-.item{
-  background:#0a101b;
-  border:1px solid #273348;
-  border-radius:13px;
-  padding:15px;
-  margin-top:12px;
-}
-
-.item h3{
-  margin-bottom:8px;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  background:#1d4ed8;
-  border-radius:20px;
-  font-size:11px;
-  margin:3px;
-}
-
-.muted{
-  color:#98a4b7;
-  font-size:13px;
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
 }
 
 .actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:12px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:22px;
 }
 
-.status{
-  background:#111827;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:15px;
+.preview{
+    margin-top:18px;
+    padding:15px;
+    min-height:70px;
+    background:#080d16;
+    border:1px dashed #334155;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.preview img{
+    display:block;
+    max-width:100%;
+    max-height:280px;
+    border-radius:12px;
+    margin-bottom:12px;
+}
+
+.preview video{
+    width:100%;
+    max-height:320px;
+    border-radius:12px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+    gap:15px;
+}
+
+.item{
+    background:#080d16;
+    border:1px solid #263249;
+    border-radius:18px;
+    padding:18px;
+}
+
+.item-title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.muted{
+    color:#8994a8;
+}
+
+.badge{
+    display:inline-block;
+    background:#1e293b;
+    border-radius:999px;
+    padding:6px 10px;
+    margin:5px 5px 5px 0;
+    font-size:14px;
+}
+
+.media{
+    margin-bottom:12px;
+}
+
+.media img{
+    width:100%;
+    max-height:230px;
+    object-fit:cover;
+    border-radius:12px;
+}
+
+.media video{
+    width:100%;
+    max-height:230px;
+    border-radius:12px;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.email{
+    word-break:break-all;
+}
+
+.empty{
+    background:#080d16;
+    border:1px dashed #334155;
+    padding:20px;
+    border-radius:15px;
+    color:#8e98aa;
 }
 
 @media(max-width:700px){
-  body{
-    padding:10px;
-  }
 
-  .grid{
-    grid-template-columns:1fr;
-  }
+    h1{
+        font-size:29px;
+    }
 
-  .full{
-    grid-column:auto;
-  }
+    .row{
+        grid-template-columns:1fr;
+    }
 
-  header{
-    align-items:flex-start;
-    gap:10px;
-  }
+    .panel{
+        padding:18px;
+    }
+
+    h2{
+        font-size:27px;
+    }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
-
 <header>
 
-<div>
-<h1>ROBLOX DEV — ADMIN</h1>
-<p class="muted">
-ระบบจัดการสินค้า / คลิป / สิทธิ์การเรียน
-</p>
-</div>
+    <div>
+        <h1>ROBLOX DEV — ADMIN</h1>
 
-<button id="logoutBtn" class="btn gray">
-ออกจากระบบ
-</button>
+        <div class="subtitle">
+            ระบบจัดการสินค้า / คลิป / สิทธิ์การเรียน
+        </div>
+    </div>
+
+    <button
+        id="logoutBtn"
+        class="btn-gray hidden">
+        ออกจากระบบ
+    </button>
 
 </header>
 
 
-<!-- LOGIN -->
+<div class="container">
 
-<div id="loginBox" class="card">
+    <!-- LOGIN -->
 
-<h2>เข้าสู่ระบบแอดมิน</h2>
+    <div
+        id="loginBox"
+        class="login-box">
 
-<button id="loginBtn" class="btn primary">
-เข้าสู่ระบบด้วย Google
-</button>
+        <h2>เข้าสู่ระบบแอดมิน</h2>
+
+        <p>
+            กรุณาเข้าสู่ระบบด้วย Google
+        </p>
+
+        <button id="loginBtn">
+            เข้าสู่ระบบด้วย Google
+        </button>
+
+    </div>
+
+
+    <!-- ADMIN -->
+
+    <div
+        id="adminApp"
+        class="hidden">
+
+        <div
+            id="status"
+            class="status">
+
+            กำลังตรวจสอบระบบ...
+
+        </div>
+
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                data-tab="productsPanel">
+                สินค้า
+            </button>
+
+            <button
+                class="tab"
+                data-tab="videosPanel">
+                คลิป
+            </button>
+
+            <button
+                class="tab"
+                data-tab="requestsPanel">
+                ผู้ขอสิทธิ์เรียน
+            </button>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- PRODUCTS -->
+        <!-- ========================= -->
+
+        <section
+            id="productsPanel"
+            class="panel active">
+
+            <h2>
+                เพิ่มสินค้า
+            </h2>
+
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        ชื่อสินค้า *
+                    </label>
+
+                    <input
+                        id="productTitle"
+                        placeholder="ชื่อสินค้า">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        ราคา *
+                    </label>
+
+                    <input
+                        id="productPrice"
+                        type="number"
+                        min="0"
+                        placeholder="เช่น 99">
+
+                </div>
+
+            </div>
+
+
+            <label>
+                หมวดหมู่สินค้า *
+            </label>
+
+            <input
+                id="productCategory"
+                list="categoryList"
+                placeholder="เช่น แมพ / UI / โมเดล">
+
+            <datalist id="categoryList"></datalist>
+
+
+            <label>
+                รายละเอียดสินค้า
+            </label>
+
+            <textarea
+                id="productDescription"
+                placeholder="รายละเอียดสินค้า">
+            </textarea>
+
+
+            <!-- IMAGE -->
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        รูปสินค้า — อัปโหลดจากเครื่อง
+                    </label>
+
+                    <input
+                        id="productImageFile"
+                        type="file"
+                        accept="image/*">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        หรือใช้ URL รูป
+                    </label>
+
+                    <input
+                        id="productImageUrl"
+                        type="url"
+                        placeholder="https://...">
+
+                </div>
+
+            </div>
+
+
+            <!-- PRODUCT VIDEO -->
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        วิดีโอสินค้า — อัปโหลดจากเครื่อง
+                    </label>
+
+                    <input
+                        id="productVideoFile"
+                        type="file"
+                        accept="video/*">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        หรือใช้ URL วิดีโอ
+                    </label>
+
+                    <input
+                        id="productVideoUrl"
+                        type="url"
+                        placeholder="https://...">
+
+                </div>
+
+            </div>
+
+
+            <!-- GLB -->
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        โมเดล 3D (.glb) — อัปโหลดจากเครื่อง
+                    </label>
+
+                    <input
+                        id="productModelFile"
+                        type="file"
+                        accept=".glb,model/gltf-binary">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        หรือใช้ URL โมเดล .glb
+                    </label>
+
+                    <input
+                        id="productModelUrl"
+                        type="url"
+                        placeholder="https://.../model.glb">
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        LINE
+                    </label>
+
+                    <input
+                        id="productLine"
+                        placeholder="https://line.me/...">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Facebook
+                    </label>
+
+                    <input
+                        id="productFacebook"
+                        placeholder="https://facebook.com/...">
+
+                </div>
+
+            </div>
+
+
+            <label>
+                Discord
+            </label>
+
+            <input
+                id="productDiscord"
+                placeholder="https://discord.gg/...">
+
+
+            <!-- PREVIEW -->
+
+            <div
+                id="productPreview"
+                class="preview">
+
+                ตัวอย่างสินค้าจะแสดงตรงนี้
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    id="previewProductBtn"
+                    class="btn-gray">
+
+                    ดูตัวอย่าง
+
+                </button>
+
+
+                <button
+                    id="addProductBtn">
+
+                    เพิ่มสินค้า
+
+                </button>
+
+            </div>
+
+
+            <!-- PRODUCT LIST -->
+
+            <h3>
+                สินค้าทั้งหมด
+            </h3>
+
+            <div
+                id="productList"
+                class="grid">
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- VIDEOS -->
+        <!-- ========================= -->
+
+        <section
+            id="videosPanel"
+            class="panel">
+
+            <h2>
+                เพิ่มคลิป
+            </h2>
+
+
+            <label>
+                ชื่อคลิป *
+            </label>
+
+            <input
+                id="videoTitle"
+                placeholder="ชื่อคลิป">
+
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        ประเภทคลิป
+                    </label>
+
+                    <select id="videoCategory">
+
+                        <option value="คลิปโปรโมทสินค้า">
+                            คลิปโปรโมทสินค้า
+                        </option>
+
+                        <option value="สื่อการสอน">
+                            สื่อการสอน
+                        </option>
+
+                        <option value="คลิปทั่วไป">
+                            คลิปทั่วไป
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        ผูกกับสินค้า
+                    </label>
+
+                    <select id="videoProduct">
+
+                        <option value="">
+                            -- ไม่ผูกกับสินค้า --
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <label>
+                ราคาโปรโมต
+            </label>
+
+            <input
+                id="videoPrice"
+                type="number"
+                min="0"
+                placeholder="เช่น 99">
+
+
+            <label>
+                รายละเอียดคลิป
+            </label>
+
+            <textarea
+                id="videoDescription"
+                placeholder="รายละเอียดคลิป">
+            </textarea>
+
+
+            <!-- VIDEO FILE -->
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        วิดีโอ — อัปโหลดจากเครื่อง
+                    </label>
+
+                    <input
+                        id="videoFile"
+                        type="file"
+                        accept="video/*">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        หรือ URL วิดีโอ
+                    </label>
+
+                    <input
+                        id="videoUrl"
+                        type="url"
+                        placeholder="https://...">
+
+                </div>
+
+            </div>
+
+
+            <!-- COVER -->
+
+            <div class="row">
+
+                <div>
+
+                    <label>
+                        ปกคลิป — อัปโหลดจากเครื่อง
+                    </label>
+
+                    <input
+                        id="videoCoverFile"
+                        type="file"
+                        accept="image/*">
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        หรือ URL ปกคลิป
+                    </label>
+
+                    <input
+                        id="videoCoverUrl"
+                        type="url"
+                        placeholder="https://...">
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="videoPreview"
+                class="preview">
+
+                ตัวอย่างคลิปจะแสดงตรงนี้
+
+            </div>
+
+
+            <div class="actions">
+
+                <button
+                    id="previewVideoBtn"
+                    class="btn-gray">
+
+                    ดูตัวอย่าง
+
+                </button>
+
+
+                <button
+                    id="addVideoBtn">
+
+                    เพิ่มคลิป
+
+                </button>
+
+            </div>
+
+
+            <h3>
+                คลิปทั้งหมด
+            </h3>
+
+            <div
+                id="videoList">
+
+            </div>
+
+        </section>
+
+
+        <!-- ========================= -->
+        <!-- REQUESTS -->
+        <!-- ========================= -->
+
+        <section
+            id="requestsPanel"
+            class="panel">
+
+            <h2>
+                ผู้ขอสิทธิ์เรียน
+            </h2>
+
+            <div
+                id="requestList">
+
+            </div>
+
+        </section>
+
+    </div>
 
 </div>
-
-
-<!-- ADMIN -->
-
-<div id="adminPanel" style="display:none">
-
-<div id="statusBox" class="status">
-กำลังโหลด...
-</div>
-
-
-<!-- TABS -->
-
-<div class="tabs">
-
-<button class="tab active" data-target="productsSection">
-สินค้า
-</button>
-
-<button class="tab" data-target="videosSection">
-คลิป
-</button>
-
-<button class="tab" data-target="requestsSection">
-ผู้ขอสิทธิ์เรียน
-</button>
-
-</div>
-
-
-<!-- =================สินค้า================ -->
-
-<div id="productsSection" class="section active">
-
-<div class="card">
-
-<h2>เพิ่มสินค้า</h2>
-
-<div class="grid">
-
-
-<div>
-
-<label>ชื่อสินค้า *</label>
-
-<input
-id="productTitle"
-placeholder="ชื่อสินค้า">
-
-</div>
-
-
-<div>
-
-<label>ราคา *</label>
-
-<input
-id="productPrice"
-type="number"
-min="0"
-placeholder="เช่น 99">
-
-</div>
-
-
-<div>
-
-<label>หมวดหมู่สินค้า *</label>
-
-<input
-id="productCategory"
-list="categoryList"
-placeholder="เช่น แมพ / UI / โมเดล">
-
-<datalist id="categoryList"></datalist>
-
-</div>
-
-
-<div>
-
-<label>เลือกหมวดหมู่เดิม</label>
-
-<select id="categorySelect">
-
-<option value="">
--- เลือกหมวดหมู่ --
-</option>
-
-</select>
-
-</div>
-
-
-<div class="full">
-
-<label>รายละเอียดสินค้า</label>
-
-<textarea
-id="productDescription"
-placeholder="รายละเอียดสินค้า">
-</textarea>
-
-</div>
-
-
-<!-- รูป -->
-
-<div>
-
-<label>
-รูปสินค้า
-เลือกจากเครื่อง
-</label>
-
-<input
-id="imageFile"
-type="file"
-accept="image/*">
-
-</div>
-
-
-<div>
-
-<label>
-หรือ URL รูป
-</label>
-
-<input
-id="imageUrl"
-placeholder="https://...">
-
-</div>
-
-
-<!-- VIDEO -->
-
-<div>
-
-<label>
-วิดีโอสินค้า
-เลือกจากเครื่อง
-</label>
-
-<input
-id="productVideoFile"
-type="file"
-accept="video/*">
-
-</div>
-
-
-<div>
-
-<label>
-หรือ URL วิดีโอ
-</label>
-
-<input
-id="productVideoUrl"
-placeholder="https://...">
-</div>
-
-
-<!-- MODEL -->
-
-<div>
-
-<label>
-โมเดล 3D
-เลือกไฟล์ .glb
-</label>
-
-<input
-id="modelFile"
-type="file"
-accept=".glb,model/gltf-binary">
-
-</div>
-
-
-<div>
-
-<label>
-หรือ URL โมเดล .glb
-</label>
-
-<input
-id="modelUrl"
-placeholder="https://.../model.glb">
-
-</div>
-
-
-<!-- ติดต่อ -->
-
-<div>
-
-<label>
-LINE
-ไม่จำเป็นต้องใส่
-</label>
-
-<input
-id="lineLink"
-placeholder="ลิงก์ LINE">
-
-</div>
-
-
-<div>
-
-<label>
-Facebook
-ไม่จำเป็นต้องใส่
-</label>
-
-<input
-id="facebookLink"
-placeholder="ลิงก์ Facebook">
-
-</div>
-
-
-<div>
-
-<label>
-Discord
-ไม่จำเป็นต้องใส่
-</label>
-
-<input
-id="discordLink"
-placeholder="ลิงก์ Discord">
-
-</div>
-
-</div>
-
-
-<div
-id="productPreview"
-class="preview">
-</div>
-
-
-<br>
-
-<button
-id="addProductBtn"
-class="btn primary">
-
-+ เพิ่มสินค้า
-
-</button>
-
-</div>
-
-
-<!-- รายการสินค้า -->
-
-<div class="card">
-
-<h2>
-สินค้าทั้งหมด
-</h2>
-
-<div id="productList">
-กำลังโหลด...
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- =================คลิป================ -->
-
-<div id="videosSection" class="section">
-
-<div class="card">
-
-<h2>
-เพิ่มคลิป
-</h2>
-
-
-<div class="grid">
-
-
-<div>
-
-<label>
-ชื่อคลิป *
-</label>
-
-<input
-id="videoTitle"
-placeholder="ชื่อคลิป">
-
-</div>
-
-
-<div>
-
-<label>
-หมวดหมู่คลิป
-</label>
-
-<select id="videoCategory">
-
-<option value="คลิปโปรโมทสินค้า">
-คลิปโปรโมทสินค้า
-</option>
-
-<option value="สื่อการสอน">
-สื่อการสอน
-</option>
-
-<option value="คลิปทั่วไป">
-คลิปทั่วไป
-</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>
-สินค้า
-ใช้เมื่อเป็นคลิปโปรโมท
-</label>
-
-<select id="videoProduct">
-
-<option value="">
--- ไม่ผูกสินค้า --
-</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>
-ราคาโปรโมท
-</label>
-
-<input
-id="videoPrice"
-type="number"
-min="0">
-
-</div>
-
-
-<div class="full">
-
-<label>
-รายละเอียดคลิป
-</label>
-
-<textarea
-id="videoDescription">
-</textarea>
-
-</div>
-
-
-<div>
-
-<label>
-วิดีโอจากเครื่อง
-</label>
-
-<input
-id="videoFile"
-type="file"
-accept="video/*">
-
-</div>
-
-
-<div>
-
-<label>
-หรือ URL วิดีโอ
-</label>
-
-<input
-id="videoUrl"
-placeholder="https://...">
-
-</div>
-
-
-<div>
-
-<label>
-รูปปกจากเครื่อง
-ไม่จำเป็น
-</label>
-
-<input
-id="videoCoverFile"
-type="file"
-accept="image/*">
-
-</div>
-
-
-<div>
-
-<label>
-หรือ URL รูปปก
-</label>
-
-<input
-id="videoCoverUrl"
-placeholder="https://...">
-
-</div>
-
-</div>
-
-
-<div
-id="videoPreview"
-class="preview">
-</div>
-
-
-<br>
-
-<button
-id="addVideoBtn"
-class="btn primary">
-
-+ เพิ่มคลิป
-
-</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>
-คลิปทั้งหมด
-</h2>
-
-<div id="videoList">
-กำลังโหลด...
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- ================= REQUEST ================= -->
-
-<div id="requestsSection" class="section">
-
-<div class="card">
-
-<h2>
-จัดการสิทธิ์การเรียน
-</h2>
-
-<p class="muted">
-
-กด "ระงับ" เพื่อบล็อก Gmail
-ไม่ให้เข้าเรียน
-
-การระงับจะไม่ลบบัญชี Google
-
-</p>
-
-
-<div id="requestList">
-
-กำลังโหลด...
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
 
 
 <script type="module">
 
-import {
-initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
+/* =========================================
+   FIREBASE
+========================================= */
 
 import {
-getAuth,
-GoogleAuthProvider,
-signInWithPopup,
-onAuthStateChanged,
-signOut
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 
 
 import {
-getFirestore,
-collection,
-addDoc,
-doc,
-deleteDoc,
-updateDoc,
-serverTimestamp,
-onSnapshot
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
 import {
-getStorage,
-ref,
-uploadBytes,
-getDownloadURL
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
+    getFirestore,
+    collection,
+    addDoc,
+    doc,
+    deleteDoc,
+    updateDoc,
+    serverTimestamp,
+    onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 import {
-firebaseConfig,
-ADMIN_EMAIL
-}
-from "./firebase-config.js";
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+    deleteObject
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
 
-const app =
-initializeApp(firebaseConfig);
+/* =========================================
+   FIREBASE CONFIG
+========================================= */
 
+const firebaseConfig = {
 
-const auth =
-getAuth(app);
+    apiKey:
+        "AIzaSyA2v01G-19ef65tZd8dRZndubDsnirqUoc",
 
+    authDomain:
+        "get-startedfirebase-project.firebaseapp.com",
 
-const db =
-getFirestore(app);
+    projectId:
+        "get-startedfirebase-project",
 
+    storageBucket:
+        "get-startedfirebase-project.firebasestorage.app",
 
-const storage =
-getStorage(app);
+    messagingSenderId:
+        "834488640705",
 
+    appId:
+        "1:834488640705:web:81998ad4745996fbbf2040",
 
-const provider =
-new GoogleAuthProvider();
-
-
-const $ =
-id =>
-document.getElementById(id);
-
-
-let products = [];
-
-let categories = new Set();
-
-let videos = {
-
-productVideos:[],
-videos:[],
-generalVideos:[]
+    measurementId:
+        "G-QFR3BG6HGK"
 
 };
 
 
+/* =========================================
+   ADMIN EMAIL
+========================================= */
 
-/* ================= LOGIN ================= */
+const ADMIN_EMAIL =
+    "mokll0081@gmail.com";
 
 
-$("loginBtn").onclick =
-async()=>{
+/* =========================================
+   INITIALIZE
+========================================= */
 
-try{
+const app =
+    initializeApp(firebaseConfig);
 
-await signInWithPopup(
-auth,
-provider
-);
+const auth =
+    getAuth(app);
 
-}catch(error){
+const db =
+    getFirestore(app);
 
-alert(
-"เข้าสู่ระบบไม่สำเร็จ\n"+
-error.message
-);
+const storage =
+    getStorage(app);
+
+const googleProvider =
+    new GoogleAuthProvider();
+
+
+let currentUser = null;
+
+let products = [];
+
+let allVideos = [];
+
+let listenersStarted = false;
+
+
+/* =========================================
+   HELPERS
+========================================= */
+
+const $ = id =>
+    document.getElementById(id);
+
+
+function escapeHtml(value = ""){
+
+    return String(value).replace(
+        /[&<>"']/g,
+
+        char => ({
+
+            "&":"&amp;",
+            "<":"&lt;",
+            ">":"&gt;",
+            '"':"&quot;",
+            "'":"&#039;"
+
+        }[char])
+    );
 
 }
+
+
+function setStatus(
+    message,
+    type = ""
+){
+
+    const el =
+        $("status");
+
+    el.textContent =
+        message;
+
+    el.className =
+        "status " + type;
+
+}
+
+
+function firebaseError(error){
+
+    console.error(error);
+
+    if(
+        error?.code ===
+        "permission-denied"
+    ){
+
+        return (
+            "Missing or insufficient permissions. " +
+            "ตรวจ Firestore Rules และบัญชี Admin"
+        );
+
+    }
+
+
+    if(
+        error?.code ===
+        "storage/unauthorized"
+    ){
+
+        return (
+            "Storage ไม่มีสิทธิ์อัปโหลด " +
+            "กรุณาตรวจ Storage Rules"
+        );
+
+    }
+
+
+    if(
+        error?.code ===
+        "storage/bucket-not-found"
+    ){
+
+        return (
+            "ยังไม่ได้เปิด Firebase Storage"
+        );
+
+    }
+
+
+    return error?.message ||
+           String(error);
+
+}
+
+
+/* =========================================
+   FILE UPLOAD
+========================================= */
+
+async function uploadFile(
+    file,
+    folder
+){
+
+    if(!file){
+
+        return {
+            url:"",
+            path:""
+        };
+
+    }
+
+
+    const safeName =
+        file.name.replace(
+            /[^a-zA-Z0-9._-]/g,
+            "_"
+        );
+
+
+    const path =
+        folder +
+        "/" +
+        Date.now() +
+        "_" +
+        safeName;
+
+
+    const storageRef =
+        ref(storage,path);
+
+
+    await uploadBytes(
+        storageRef,
+        file
+    );
+
+
+    const url =
+        await getDownloadURL(
+            storageRef
+        );
+
+
+    return {
+        url,
+        path
+    };
+
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+$("loginBtn").onclick =
+async () => {
+
+    try{
+
+        $("loginBtn").disabled =
+            true;
+
+        await signInWithPopup(
+            auth,
+            googleProvider
+        );
+
+    }
+
+    catch(error){
+
+        alert(
+            "เข้าสู่ระบบไม่ได้\n\n" +
+            firebaseError(error)
+        );
+
+    }
+
+    finally{
+
+        $("loginBtn").disabled =
+            false;
+
+    }
 
 };
 
 
 $("logoutBtn").onclick =
-()=>signOut(auth);
+async () => {
+
+    await signOut(auth);
+
+};
 
 
+/* =========================================
+   AUTH CHECK
+========================================= */
 
 onAuthStateChanged(
-auth,
-user=>{
+    auth,
+    user => {
 
-if(!user){
+        if(!user){
 
-$("loginBox").style.display =
-"block";
+            currentUser =
+                null;
 
-$("adminPanel").style.display =
-"none";
+            $("loginBox")
+                .classList
+                .remove("hidden");
 
-return;
+            $("adminApp")
+                .classList
+                .add("hidden");
 
-}
+            $("logoutBtn")
+                .classList
+                .add("hidden");
 
+            return;
 
-if(
-(user.email||"").toLowerCase()
-!==
-ADMIN_EMAIL.toLowerCase()
-){
+        }
 
-alert(
-"บัญชีนี้ไม่มีสิทธิ์เข้า Admin"
-);
 
-signOut(auth);
+        const email =
+            (user.email || "")
+            .toLowerCase();
 
-return;
 
-}
+        if(
+            email !==
+            ADMIN_EMAIL.toLowerCase()
+        ){
 
-
-$("loginBox").style.display =
-"none";
-
-$("adminPanel").style.display =
-"block";
-
-$("statusBox").textContent =
-"เข้าสู่ระบบแอดมิน: "
-+
-user.email;
-
-
-loadProducts();
-
-loadVideos();
-
-loadRequests();
-
-});
-
-
-
-/* ================= TABS ================= */
-
-
-document
-.querySelectorAll(".tab")
-.forEach(button=>{
-
-button.onclick=()=>{
-
-document
-.querySelectorAll(".tab")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-document
-.querySelectorAll(".section")
-.forEach(x=>
-x.classList.remove("active")
-);
-
-button.classList.add("active");
-
-$(
-button.dataset.target
-)
-.classList.add("active");
-
-};
-
-});
-
-
-
-/* ================= UPLOAD ================= */
-
-
-async function uploadFile(
-file,
-folder
-){
-
-if(!file)
-return "";
-
-
-const safeName =
-file.name
-.replace(
-/[^a-zA-Z0-9._-]/g,
-"_"
-);
-
-
-const storageRef =
-ref(
-storage,
-folder+
-"/"+
-Date.now()+
-"_"+
-safeName
-);
-
-
-await uploadBytes(
-storageRef,
-file
-);
-
-
-return await
-getDownloadURL(
-storageRef
-);
-
-}
-
-
-
-/* ================= PREVIEW PRODUCT ================= */
-
-
-function updateProductPreview(){
-
-const box =
-$("productPreview");
-
-box.innerHTML="";
-
-
-const image =
-$("imageFile")
-.files[0];
-
-
-const video =
-$("productVideoFile")
-.files[0];
-
-
-if(image){
-
-const img =
-document.createElement("img");
-
-img.src =
-URL.createObjectURL(
-image
-);
-
-box.appendChild(img);
-
-}
-
-
-if(video){
-
-const v =
-document.createElement("video");
-
-v.src =
-URL.createObjectURL(
-video
-);
-
-v.controls=true;
-
-box.appendChild(v);
-
-}
-
-}
-
-
-$("imageFile")
-.onchange =
-updateProductPreview;
-
-
-$("productVideoFile")
-.onchange =
-updateProductPreview;
-
-
-
-/* ================= CATEGORY ================= */
-
-
-$("categorySelect")
-.onchange =
-event=>{
-
-if(event.target.value){
-
-$("productCategory")
-.value =
-event.target.value;
-
-}
-
-};
-
-
-function updateCategories(){
-
-const list =
-[...categories].sort();
-
-
-$("categorySelect")
-.innerHTML =
-`
-<option value="">
--- เลือกหมวดหมู่ --
-</option>
-`
-+
-list
-.map(
-x=>
-`<option>${escapeHtml(x)}</option>`
-)
-.join("");
-
-
-$("categoryList")
-.innerHTML =
-list
-.map(
-x=>
-`<option value="${escapeHtml(x)}">`
-)
-.join("");
-
-}
-
-
-
-/* ================= ADD PRODUCT ================= */
-
-
-$("addProductBtn")
-.onclick =
-async()=>{
-
-try{
-
-const title =
-$("productTitle")
-.value
-.trim();
-
-
-const category =
-$("productCategory")
-.value
-.trim();
-
-
-const price =
-Number(
-$("productPrice")
-.value
-);
-
-
-if(
-!title ||
-!category ||
-isNaN(price)
-){
-
-alert(
-"กรุณากรอกชื่อสินค้า ราคา และหมวดหมู่"
-);
-
-return;
-
-}
-
-
-const imageFile =
-$("imageFile")
-.files[0];
-
-
-const videoFile =
-$("productVideoFile")
-.files[0];
-
-
-const modelFile =
-$("modelFile")
-.files[0];
-
-
-const folder =
-"products/"
-+
-Date.now();
-
-
-let image="";
-
-let video="";
-
-let model="";
-
-
-if(imageFile){
-
-image =
-await uploadFile(
-imageFile,
-folder+"/images"
-);
-
-}else{
-
-image =
-$("imageUrl")
-.value
-.trim();
-
-}
-
-
-if(videoFile){
-
-video =
-await uploadFile(
-videoFile,
-folder+"/videos"
-);
-
-}else{
-
-video =
-$("productVideoUrl")
-.value
-.trim();
-
-}
-
-
-if(modelFile){
-
-model =
-await uploadFile(
-modelFile,
-folder+"/models"
-);
-
-}else{
-
-model =
-$("modelUrl")
-.value
-.trim();
-
-}
-
-
-await addDoc(
-collection(
-db,
-"products"
-),
-{
-
-title,
-
-description:
-$("productDescription")
-.value
-.trim(),
-
-category,
-
-price,
-
-image,
-
-video,
-
-model3d:model,
-
-line:
-$("lineLink")
-.value
-.trim(),
-
-facebook:
-$("facebookLink")
-.value
-.trim(),
-
-discord:
-$("discordLink")
-.value
-.trim(),
-
-createdAt:
-serverTimestamp()
-
-});
-
-
-alert(
-"เพิ่มสินค้าเรียบร้อยแล้ว"
-);
-
-
-location.reload();
-
-
-}catch(error){
-
-alert(
-"เพิ่มสินค้าไม่สำเร็จ\n"+
-error.message
-);
-
-}
-
-};
-
-
-
-/* ================= LOAD PRODUCTS ================= */
-
-
-function loadProducts(){
-
-onSnapshot(
-collection(db,"products"),
-snapshot=>{
-
-products =
-snapshot.docs.map(
-d=>({
-id:d.id,
-...d.data()
-})
-);
-
-
-categories =
-new Set(
-products
-.map(
-p=>p.category
-)
-.filter(Boolean)
-);
-
-
-updateCategories();
-
-updateProductSelector();
-
-renderProducts();
-
-},
-error=>{
-
-$("statusBox").textContent =
-"โหลดสินค้าไม่ได้: "
-+
-error.message;
-
-});
-
-}
-
-
-
-/* ================= RENDER PRODUCTS ================= */
-
-
-function renderProducts(){
-
-const box =
-$("productList");
-
-
-if(!products.length){
-
-box.innerHTML =
-`<p class="muted">
-ยังไม่มีสินค้า
-</p>`;
-
-return;
-
-}
-
-
-box.innerHTML =
-products
-.map(
-p=>{
-
-let media="";
-
-
-if(p.image){
-
-media +=
-`
-<img
-src="${escapeHtml(p.image)}"
-style="
-width:150px;
-height:110px;
-object-fit:contain;
-border-radius:10px;
-background:#000;
-">
-`;
-
-}
-
-
-if(p.video){
-
-media +=
-`
-<video
-src="${escapeHtml(p.video)}"
-controls
-style="
-width:200px;
-max-height:120px;
-border-radius:10px;
-">
-</video>
-`;
-
-}
-
-
-if(p.model3d){
-
-media +=
-`
-<span class="badge">
-มีโมเดล 3D .glb
-</span>
-`;
-
-}
-
-
-return `
-
-<div class="item">
-
-<h3>
-${escapeHtml(p.title)}
-</h3>
-
-<span class="badge">
-${escapeHtml(p.category)}
-</span>
-
-<span class="badge">
-${Number(p.price||0)
-.toLocaleString()}
-บาท
-</span>
-
-<p class="muted">
-${escapeHtml(p.description||"")}
-</p>
-
-<div class="preview">
-
-${media}
-
-</div>
-
-<div class="actions">
-
-<button
-class="btn danger"
-onclick="deleteProduct('${p.id}')">
-
-ลบสินค้า
-
-</button>
-
-</div>
-
-</div>
-
-`;
-
-}
-)
-.join("");
-
-}
-
-
-
-/* ================= DELETE PRODUCT ================= */
-
-
-window.deleteProduct =
-async id=>{
-
-if(
-!confirm(
-"ต้องการลบสินค้านี้หรือไม่?"
-)
-)return;
-
-
-try{
-
-await deleteDoc(
-doc(
-db,
-"products",
-id
-)
-);
-
-
-alert("ลบสินค้าแล้ว");
-
-}catch(error){
-
-alert(error.message);
-
-}
-
-};
-
-
-
-/* ================= VIDEO PREVIEW ================= */
-
-
-$("videoFile").onchange =
-()=>{
-
-const file =
-$("videoFile")
-.files[0];
-
-if(!file)return;
-
-$("videoPreview")
-.innerHTML =
-`
-<video
-src="${URL.createObjectURL(file)}"
-controls>
-</video>
-`;
-
-};
-
-
-$("videoCoverFile").onchange =
-()=>{
-
-const file =
-$("videoCoverFile")
-.files[0];
-
-if(!file)return;
-
-$("videoPreview")
-.innerHTML +=
-`
-<img
-src="${URL.createObjectURL(file)}">
-`;
-
-};
-
-
-
-/* ================= PRODUCT SELECTOR ================= */
-
-
-function updateProductSelector(){
-
-$("videoProduct").innerHTML =
-`
-<option value="">
--- ไม่ผูกสินค้า --
-</option>
-`
-+
-products
-.map(
-p=>
-`
-<option value="${p.id}">
-${escapeHtml(p.title)}
-—
-${Number(p.price||0).toLocaleString()}
-บาท
-</option>
-`
-)
-.join("");
-
-}
-
-
-$("videoProduct").onchange =
-()=>{
-
-const product =
-products.find(
-p=>
-p.id ===
-$("videoProduct").value
-);
-
-
-if(product){
-
-$("videoPrice").value =
-product.price || 0;
-
-}
-
-};
-
-
-
-/* ================= ADD VIDEO ================= */
-
-
-$("addVideoBtn")
-.onclick =
-async()=>{
-
-try{
-
-const title =
-$("videoTitle")
-.value
-.trim();
-
-
-const category =
-$("videoCategory")
-.value;
-
-
-if(!title){
-
-alert(
-"กรุณาใส่ชื่อคลิป"
-);
-
-return;
-
-}
-
-
-let collectionName;
-
-
-if(
-category ===
-"สื่อการสอน"
-){
-
-collectionName =
-"videos";
-
-}
-else if(
-category ===
-"คลิปโปรโมทสินค้า"
-){
-
-collectionName =
-"productVideos";
-
-}
-else{
-
-collectionName =
-"generalVideos";
-
-}
-
-
-const videoFile =
-$("videoFile")
-.files[0];
-
-
-const coverFile =
-$("videoCoverFile")
-.files[0];
-
-
-let videoUrl="";
-
-let coverUrl="";
-
-
-if(videoFile){
-
-videoUrl =
-await uploadFile(
-videoFile,
-"videos"
-);
-
-}else{
-
-videoUrl =
-$("videoUrl")
-.value
-.trim();
-
-}
-
-
-if(coverFile){
-
-coverUrl =
-await uploadFile(
-coverFile,
-"video-covers"
-);
-
-}else{
-
-coverUrl =
-$("videoCoverUrl")
-.value
-.trim();
-
-}
-
-
-if(!videoUrl){
-
-alert(
-"กรุณาเลือกวิดีโอหรือใส่ URL"
-);
-
-return;
-
-}
-
-
-const product =
-products.find(
-p=>
-p.id ===
-$("videoProduct").value
-);
-
-
-await addDoc(
-collection(
-db,
-collectionName
-),
-{
-
-title,
-
-description:
-$("videoDescription")
-.value
-.trim(),
-
-category,
-
-url:videoUrl,
-
-cover:coverUrl,
-
-productId:
-product?.id || "",
-
-productTitle:
-product?.title || "",
-
-productPrice:
-Number(
-$("videoPrice").value
-||
-product?.price
-||
-0
-),
-
-createdAt:
-serverTimestamp()
-
-});
-
-
-alert(
-"เพิ่มคลิปเรียบร้อยแล้ว"
-);
-
-
-$("videoTitle").value="";
-
-$("videoDescription").value="";
-
-$("videoUrl").value="";
-
-$("videoCoverUrl").value="";
-
-$("videoPrice").value="";
-
-$("videoPreview").innerHTML="";
-
-
-}catch(error){
-
-alert(
-"เพิ่มคลิปไม่สำเร็จ\n"+
-error.message
-);
-
-}
-
-};
-
-
-
-/* ================= LOAD VIDEOS ================= */
-
-
-function loadVideos(){
-
-[
-"productVideos",
-"videos",
-"generalVideos"
-]
-.forEach(
-collectionName=>{
-
-onSnapshot(
-collection(
-db,
-collectionName
-),
-snapshot=>{
-
-videos[collectionName] =
-snapshot.docs.map(
-d=>({
-
-id:d.id,
-
-source:
-collectionName,
-
-...d.data()
-
-})
-);
-
-renderVideos();
-
-},
-error=>{
-
-console.log(
-collectionName,
-error.message
-);
-
-});
-
-});
-
-}
-
-
-
-/* ================= RENDER VIDEOS ================= */
-
-
-function renderVideos(){
-
-const all =
-[
-...videos.productVideos,
-...videos.videos,
-...videos.generalVideos
-];
-
-
-if(!all.length){
-
-$("videoList").innerHTML =
-`
-<p class="muted">
-ยังไม่มีคลิป
-</p>
-`;
-
-return;
-
-}
-
-
-$("videoList").innerHTML =
-all
-.map(
-v=>
-`
-
-<div class="item">
-
-<h3>
-${escapeHtml(v.title)}
-</h3>
-
-<span class="badge">
-${escapeHtml(v.category)}
-</span>
-
-${
-v.productTitle
-?
-`
-<span class="badge">
-สินค้า:
-${escapeHtml(v.productTitle)}
-</span>
-`
-:""
-}
-
-${
-v.productPrice
-?
-`
-<span class="badge">
-${Number(v.productPrice)
-.toLocaleString()}
-บาท
-</span>
-`
-:""
-}
-
-<p class="muted">
-${escapeHtml(v.description||"")}
-</p>
-
-${
-v.cover
-?
-`
-<img
-src="${escapeHtml(v.cover)}"
-style="
-width:180px;
-max-height:110px;
-object-fit:contain;
-border-radius:10px;
-background:#000;
-">
-`
-:""
-}
-
-<br><br>
-
-<video
-src="${escapeHtml(v.url)}"
-controls
-style="
-width:300px;
-max-width:100%;
-border-radius:10px;
-">
-</video>
-
-<div class="actions">
-
-<button
-class="btn danger"
-onclick="
-deleteVideo(
-'${v.source}',
-'${v.id}'
-)">
-
-ลบคลิป
-
-</button>
-
-</div>
-
-</div>
-
-`
-)
-.join("");
-
-}
-
-
-
-/* ================= DELETE VIDEO ================= */
-
-
-window.deleteVideo =
-async(
-collectionName,
-id
-)=>{
-
-if(
-!confirm(
-"ต้องการลบคลิปนี้หรือไม่?"
-)
-)return;
-
-
-try{
-
-await deleteDoc(
-doc(
-db,
-collectionName,
-id
-)
-);
-
-alert(
-"ลบคลิปแล้ว"
-);
-
-}catch(error){
-
-alert(
-error.message
-);
-
-}
-
-};
-
-
-
-/* ================= REQUESTS ================= */
-
-
-function loadRequests(){
-
-onSnapshot(
-collection(
-db,
-"accessRequests"
-),
-snapshot=>{
-
-const requests =
-snapshot.docs.map(
-d=>({
-
-id:d.id,
-
-...d.data()
-
-})
-);
-
-
-if(!requests.length){
-
-$("requestList").innerHTML =
-`
-<p class="muted">
-ยังไม่มีผู้ขอสิทธิ์
-</p>
-`;
-
-return;
-
-}
-
-
-$("requestList").innerHTML =
-requests
-.map(
-r=>
-`
-
-<div class="item">
-
-<h3>
-${escapeHtml(
-r.email ||
-"ไม่ทราบ Gmail"
-)}
-</h3>
-
-<span class="badge">
-สถานะ:
-${escapeHtml(
-r.status ||
-"pending"
-)}
-</span>
-
-<div class="actions">
-
-<button
-class="btn success"
-onclick="
-changeAccess(
-'${r.id}',
-'approved'
-)">
-
-อนุมัติ
-
-</button>
-
-
-<button
-class="btn danger"
-onclick="
-changeAccess(
-'${r.id}',
-'denied'
-)">
-
-ระงับ / บล็อก
-
-</button>
-
-</div>
-
-</div>
-
-`
-)
-.join("");
-
-});
-
-}
-
-
-
-/* ================= CHANGE ACCESS ================= */
-
-
-window.changeAccess =
-async(
-uid,
-status
-)=>{
-
-try{
-
-await updateDoc(
-doc(
-db,
-"accessRequests",
-uid
-),
-{
-
-status
-
-}
-);
-
-
-if(status==="approved"){
-
-alert(
-"อนุมัติ Gmail นี้แล้ว"
-);
-
-}else{
-
-alert(
-"ระงับสิทธิ์แล้ว Gmail นี้จะเข้าเรียนไม่ได้"
-);
-
-}
-
-}catch(error){
-
-alert(
-"เปลี่ยนสิทธิ์ไม่ได้\n"+
-error.message
-);
-
-}
-
-};
-
-
-
-/* ================= SECURITY HTML ================= */
-
-
-function escapeHtml(text){
-
-return String(
-text ?? ""
-)
-.replace(
-/[&<>"']/g,
-char=>
-({
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-
-}[char])
-);
-
-}
-
-</script>
-
-</body>
-  </html>
+            alert(
+                "บัญชีนี้ไม่มีสิทธิ์เป็น Admin\n\n" +
+                
